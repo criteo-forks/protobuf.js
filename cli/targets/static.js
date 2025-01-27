@@ -468,15 +468,18 @@ function buildType(ref, type) {
 
     // constructor
     push("");
+    var constructorParams = config["decode-minimal"] ? [] : [
+        "@param {" + exportName(type, true) + "=} [" + (config.beautify ? "properties" : "p") + "] Properties to set"
+    ];
     pushComment([
         "Constructs a new " + type.name + ".",
         type.parent instanceof protobuf.Root ? "@exports " + escapeName(type.name) : "@memberof " + exportName(type.parent),
         "@classdesc " + (type.comment || "Represents " + aOrAn(type.name) + "."),
         config.comments ? "@implements " + escapeName("I" + type.name) : null,
         "@constructor",
-        "@param {" + exportName(type, true) + "=} [" + (config.beautify ? "properties" : "p") + "] Properties to set"
+        ...constructorParams
     ]);
-    buildFunction(type, type.name, Type.generateConstructor(type));
+    buildFunction(type, type.name, Type.generateConstructor(type, config["decode-minimal"]));
 
     // default values
     var firstField = true;

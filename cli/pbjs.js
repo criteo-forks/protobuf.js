@@ -41,7 +41,7 @@ exports.main = function main(args, callback) {
             "force-message": "strict-message"
         },
         string: [ "target", "out", "path", "wrap", "dependency", "root", "lint", "filter" ],
-        boolean: [ "create", "encode", "decode", "verify", "convert", "delimited", "typeurl", "beautify", "comments", "service", "es6", "sparse", "keep-case", "alt-comment", "force-long", "force-number", "force-enum-string", "force-message", "null-defaults", "null-semantics"],
+        boolean: [ "create", "encode", "decode", "verify", "convert", "delimited", "typeurl", "beautify", "comments", "service", "es6", "sparse", "keep-case", "alt-comment", "force-long", "force-number", "force-enum-string", "force-message", "null-defaults", "null-semantics", "decode-minimal"],
         default: {
             target: "json",
             create: true,
@@ -63,7 +63,8 @@ exports.main = function main(args, callback) {
             "force-enum-string": false,
             "force-message": false,
             "null-defaults": false,
-            "null-semantics": false
+            "null-semantics": false,
+            "decode-minimal": false
         }
     });
 
@@ -143,6 +144,7 @@ exports.main = function main(args, callback) {
                 "  --no-beautify    Does not beautify generated code.",
                 "  --no-comments    Does not output any JSDoc comments.",
                 "  --no-service     Does not output service classes.",
+                "  --decode-minimal Only generates decoding related functions",
                 "",
                 "  --force-long     Enforces the use of 'Long' for s-/u-/int64 and s-/fixed64 fields.",
                 "  --force-number   Enforces the use of 'number' for s-/u-/int64 and s-/fixed64 fields.",
