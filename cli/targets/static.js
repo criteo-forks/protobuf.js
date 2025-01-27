@@ -537,36 +537,37 @@ function buildType(ref, type) {
             push(escapeName(type.name) + ".prototype" + prop + " = " + JSON.stringify(field.typeDefault) + ";");
     });
 
-    // virtual oneof fields
-    var firstOneOf = true;
-    type.oneofsArray.forEach(function(oneof) {
-        if (firstOneOf) {
-            firstOneOf = false;
+    if (!config["decode-minimal"]) {
+        // virtual oneof fields
+        var firstOneOf = true;
+        type.oneofsArray.forEach(function (oneof) {
+            if (firstOneOf) {
+                firstOneOf = false;
+                push("");
+                if (config.comments)
+                    push("// OneOf field names bound to virtual getters and setters");
+                push((config.es6 ? "let" : "var") + " $oneOfFields;");
+            }
+            oneof.resolve();
             push("");
-            if (config.comments)
-                push("// OneOf field names bound to virtual getters and setters");
-            push((config.es6 ? "let" : "var") + " $oneOfFields;");
-        }
-        oneof.resolve();
-        push("");
-        if (isOptionalOneOf(oneof, syntax)) {
-            push("// Virtual OneOf for proto3 optional field");
-        }
-        else {
-            pushComment([
-                oneof.comment || type.name + " " + oneof.name + ".",
-                "@member {" + oneof.oneof.map(JSON.stringify).join("|") + "|undefined} " + escapeName(oneof.name),
-                "@memberof " + exportName(type),
-                "@instance"
-            ]);
-        }
-        push("Object.defineProperty(" + escapeName(type.name) + ".prototype, " + JSON.stringify(oneof.name) +", {");
-        ++indent;
+            if (isOptionalOneOf(oneof, syntax)) {
+                push("// Virtual OneOf for proto3 optional field");
+            } else {
+                pushComment([
+                    oneof.comment || type.name + " " + oneof.name + ".",
+                    "@member {" + oneof.oneof.map(JSON.stringify).join("|") + "|undefined} " + escapeName(oneof.name),
+                    "@memberof " + exportName(type),
+                    "@instance"
+                ]);
+            }
+            push("Object.defineProperty(" + escapeName(type.name) + ".prototype, " + JSON.stringify(oneof.name) + ", {");
+            ++indent;
             push("get: $util.oneOfGetter($oneOfFields = [" + oneof.oneof.map(JSON.stringify).join(", ") + "]),");
             push("set: $util.oneOfSetter($oneOfFields)");
-        --indent;
-        push("});");
-    });
+            --indent;
+            push("});");
+        });
+    }
 
     if (config.create) {
         push("");
