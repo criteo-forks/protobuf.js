@@ -191,18 +191,23 @@ Object.defineProperties(Type.prototype, {
 
 /**
  * Generates a constructor function for the specified type.
- * @param {Type} mtype Message type
+ * @param {Type} mtype Message type.
+ * @param {boolean} minimal Message type.
  * @returns {Codegen} Codegen instance
  */
-Type.generateConstructor = function generateConstructor(mtype) {
+Type.generateConstructor = function generateConstructor(mtype, minimal = false) {
     /* eslint-disable no-unexpected-multiline */
-    var gen = util.codegen(["p"], mtype.name);
+    var gen = util.codegen(minimal ? [] : ["p"], mtype.name);
     // explicitly initialize mutable object/array fields so that these aren't just inherited from the prototype
     for (var i = 0, field; i < mtype.fieldsArray.length; ++i)
         if ((field = mtype._fieldsArray[i]).map) gen
-            ("this%s={}", util.safeProp(field.name));
+        ("this%s={}", util.safeProp(field.name));
         else if (field.repeated) gen
-            ("this%s=[]", util.safeProp(field.name));
+        ("this%s=[]", util.safeProp(field.name));
+
+    if (minimal)
+        return gen;
+
     return gen
     ("if(p)for(var ks=Object.keys(p),i=0;i<ks.length;++i)if(p[ks[i]]!=null)") // omit undefined or null
         ("this[ks[i]]=p[ks[i]]");
