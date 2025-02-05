@@ -1,6 +1,6 @@
 {
-  "name": "protobufjs",
-  "version": "7.4.0",
+  "name": "@criteo/protobufjs",
+  "version": "0.0.1",
   "versionScheme": "~",
   "description": "Protocol Buffers for JavaScript (& TypeScript).",
   "author": "Daniel Wirtz <dcode+protobufjs@dcode.io>",
