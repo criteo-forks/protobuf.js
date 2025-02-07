@@ -21,9 +21,10 @@ exports.main = function(args, callback) {
             out : "o",
             main: "m",
             global: "g",
-            import: "i"
+            import: "i",
+            dependency: "d"
         },
-        string: [ "name", "out", "global", "import" ],
+        string: [ "name", "out", "global", "import", "dependency"],
         boolean: [ "comments", "main" ],
         default: {
             comments: true,
@@ -42,19 +43,21 @@ exports.main = function(args, callback) {
                 "",
                 chalk.bold.white("Generates TypeScript definitions from annotated JavaScript files."),
                 "",
-                "  -o, --out       Saves to a file instead of writing to stdout.",
+                "  -o, --out         Saves to a file instead of writing to stdout.",
                 "",
-                "  -g, --global    Name of the global object in browser environments, if any.",
+                "  -g, --global      Name of the global object in browser environments, if any.",
                 "",
-                "  -i, --import    Comma delimited list of imports. Local names will equal camelCase of the basename.",
+                "  -i, --import      Comma delimited list of imports. Local names will equal camelCase of the basename.",
                 "",
-                "  --no-comments   Does not output any JSDoc comments.",
+                "  --no-comments     Does not output any JSDoc comments.",
                 "",
                 chalk.bold.gray("  Internal flags:"),
                 "",
-                "  -n, --name      Wraps everything in a module of the specified name.",
+                "  -n, --name        Wraps everything in a module of the specified name.",
                 "",
-                "  -m, --main      Whether building the main library without any imports.",
+                "  -m, --main        Whether building the main library without any imports.",
+                "",
+                "  -d, --dependency  Specifies which version of protobuf to require. Accepts any valid module id.",
                 "",
                 "usage: " + chalk.bold.green("pbts") + " [options] file1.js file2.js ..." + chalk.bold.gray("  (or)  ") + "other | " + chalk.bold.green("pbts") + " [options] -",
                 ""
@@ -159,7 +162,7 @@ exports.main = function(args, callback) {
 
                 // Build an object of imports and paths
                 var imports = {
-                    $protobuf: "protobufjs"
+                    $protobuf: argv.dependency || "protobufjs"
                 };
                 importArray.forEach(function(importItem) {
                     imports[getImportName(importItem)] = importItem;
