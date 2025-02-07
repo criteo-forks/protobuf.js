@@ -829,14 +829,17 @@ function buildEnum(ref, enm) {
         comment.push((config.forceEnumString ? "@property {string} " : "@property {number} ") + key + "=" + val + " " + (enm.comments[key] || key + " value"));
     });
     pushComment(comment);
-    if (!ref && config.es6)
-        push("export const " + escapeName(enm.name) + " = " + escapeName(ref) + "." + escapeName(enm.name) + " = (() => {");
-    else
-        push(escapeName(ref) + "." + escapeName(enm.name) + " = (function() {");
-    ++indent;
+
+    if (!config["decode-minimal"]) {
+        if (!ref && config.es6)
+            push("export const " + escapeName(enm.name) + " = " + escapeName(ref) + "." + escapeName(enm.name) + " = (() => {");
+        else
+            push(escapeName(ref) + "." + escapeName(enm.name) + " = (function() {");
+
+        ++indent;
         push((config.es6 ? "const" : "var") + " valuesById = {}, values = Object.create(valuesById);");
         var aliased = [];
-        Object.keys(enm.values).forEach(function(key) {
+        Object.keys(enm.values).forEach(function (key) {
             var valueId = enm.values[key];
             var val = config.forceEnumString ? JSON.stringify(key) : valueId;
             if (aliased.indexOf(valueId) > -1)
@@ -847,6 +850,7 @@ function buildEnum(ref, enm) {
             }
         });
         push("return values;");
-    --indent;
-    push("})();");
+        --indent;
+        push("})();");
+    }
 }
