@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/criteo-forks/protobuf.js/compare/protobufjs-cli-v1.0.1...protobufjs-cli-v1.0.2) (2025-02-10)
+
+
+### Bug Fixes
+
+* update cli package names ([69aadb4](https://github.com/criteo-forks/protobuf.js/commit/69aadb4642bcae3db471d577832b262722ac45cb))
+
 ## [1.0.1](https://github.com/criteo-forks/protobuf.js/compare/protobufjs-cli-v1.0.0...protobufjs-cli-v1.0.1) (2025-02-10)
 
 
