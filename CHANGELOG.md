@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/criteo-forks/protobuf.js/compare/protobufjs-v1.0.0...protobufjs-v1.0.1) (2025-02-10)
+
+
+### Bug Fixes
+
+* peerDependency ([da9e958](https://github.com/criteo-forks/protobuf.js/commit/da9e9583d0064e20f1279609c169a6c6afb873af))
+
 ## 1.0.0 (2025-02-07)
 
 
