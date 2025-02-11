@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.3](https://github.com/criteo-forks/protobuf.js/compare/protobufjs-cli-v1.0.2...protobufjs-cli-v1.0.3) (2025-02-11)
+
+
+### Bug Fixes
+
+* added option to move copy constructor to a default one ([91212af](https://github.com/criteo-forks/protobuf.js/commit/91212afcbfb08922250e5dd2eb5dbd0a4b64d56e))
+* removed oneOf generate code when decode-minimal is active ([fef7a7e](https://github.com/criteo-forks/protobuf.js/commit/fef7a7ee0d16bb7f3a782eb7b044ecf6f58c1cdc))
+* simplified generated code for enum on decode-minimal ([97c8a7a](https://github.com/criteo-forks/protobuf.js/commit/97c8a7afe01b70d0cca5be2b5e79b9141327d877))
+
 ## [1.0.2](https://github.com/criteo-forks/protobuf.js/compare/protobufjs-cli-v1.0.1...protobufjs-cli-v1.0.2) (2025-02-10)
 
 
