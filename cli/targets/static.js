@@ -830,27 +830,26 @@ function buildEnum(ref, enm) {
     });
     pushComment(comment);
 
-    if (!config["decode-minimal"]) {
-        if (!ref && config.es6)
-            push("export const " + escapeName(enm.name) + " = " + escapeName(ref) + "." + escapeName(enm.name) + " = (() => {");
-        else
-            push(escapeName(ref) + "." + escapeName(enm.name) + " = (function() {");
-
-        ++indent;
-        push((config.es6 ? "const" : "var") + " valuesById = {}, values = Object.create(valuesById);");
-        var aliased = [];
-        Object.keys(enm.values).forEach(function (key) {
-            var valueId = enm.values[key];
-            var val = config.forceEnumString ? JSON.stringify(key) : valueId;
-            if (aliased.indexOf(valueId) > -1)
-                push("values[" + JSON.stringify(key) + "] = " + val + ";");
-            else {
-                push("values[valuesById[" + valueId + "] = " + JSON.stringify(key) + "] = " + val + ";");
-                aliased.push(valueId);
-            }
-        });
-        push("return values;");
-        --indent;
-        push("})();");
-    }
+    if (!ref && config.es6)
+        push("export const " + escapeName(enm.name) + " = " + escapeName(ref) + "." + escapeName(enm.name) + " = (() => {");
+    else
+        push(escapeName(ref) + "." + escapeName(enm.name) + " = (function() {");
+    ++indent;
+    push((config.es6 ? "const" : "var") + (config["decode-minimal"] ? " values = {};" : " valuesById = {}, values = Object.create(valuesById);"));
+    var aliased = [];
+    Object.keys(enm.values).forEach(function (key) {
+        var valueId = enm.values[key];
+        var val = config.forceEnumString ? JSON.stringify(key) : valueId;
+        if (config["decode-minimal"])
+            push("values." + key + " = " + val + ";");
+        else if (aliased.indexOf(valueId) > -1)
+            push("values[" + JSON.stringify(key) + "] = " + val + ";");
+        else {
+            push("values[valuesById[" + valueId + "] = " + JSON.stringify(key) + "] = " + val + ";");
+            aliased.push(valueId);
+        }
+    });
+    push("return values;");
+    --indent;
+    push("})();");
 }
