@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/criteo-forks/protobuf.js/compare/protobufjs-v1.0.3...protobufjs-v1.0.4) (2025-02-13)
+
+
+### Bug Fixes
+
+* add back referential of enum values ([784a460](https://github.com/criteo-forks/protobuf.js/commit/784a460ba33fbff01930eebdb8a1d0d1f29fcaa1))
+
 ## [1.0.3](https://github.com/criteo-forks/protobuf.js/compare/protobufjs-v1.0.2...protobufjs-v1.0.3) (2025-02-11)
 
 
